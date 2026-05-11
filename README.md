@@ -154,7 +154,11 @@ Demo video and additional assets are available via the submission Drive link.
 | **Aaniya Sharma** | UI/UX Design & Frontend Development |
 | **Aditya Arya** | Backend, AI Architecture, API Integration, Failover System |
 
+---
+## Demo & Submission
 
+- 📂 **Code:** https://github.com/aditya3272-arya/GurukulTheSchool_BotBuilders
+- 🎥 **Video & PPT:** https://drive.google.com/drive/folders/1koqG8Zq42JheBKkl3A2Mowpio-Zi5_N9?usp=drive_link
 ---
 
 > **Note:** Sensitive credentials are excluded for security. API keys can be provided upon request for evaluation purposes.
