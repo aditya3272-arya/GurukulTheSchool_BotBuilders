@@ -1,56 +1,164 @@
-# Cortexia — School HelpDesk Chatbot
+# 🧠 Cortexia — AI-Powered School Helpdesk
 
-Python-only build for competition submission:
-- FastAPI backend (`backend/`) for auth, access-control, chat, and data fetching
-- CustomTkinter desktop client (`client/`) for the full user-facing experience
+> Built for **TECHVAGANZA: CV'26** by Grade 11 students
 
-## 1) Supabase setup
-1. Create a Supabase project.
-2. Run the SQL in [`supabase/schema.sql`](supabase/schema.sql) using the Supabase SQL editor.
-3. Insert at least one school row in `public.schools`, and create some:
-   - `public.users` rows for **student** and **staff** credentials
-   - `public.knowledge_items` rows for visitor/student/staff info (fees, timings, policies, etc.)
+Cortexia is a high-performance, AI-driven digital assistant for the modern school ecosystem. It uses a microservices-inspired architecture to streamline communication between students, staff, and visitors.
 
-## 2) Environment variables
-Copy `.env.example` to `.env` and fill:
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY` (**server-only**; never expose to browser)
-- **LLM keys (recommended: both for free-tier failover):**
-  - `OPENAI_API_KEY` — used **first** for intent parsing and answer generation
-  - `GEMINI_API_KEY` — used if OpenAI errors, rate-limits, or returns an empty answer
-  - If **neither** is set, the bot still runs using heuristics + raw facts from Supabase
-- `SESSION_SECRET`
-- Optional desktop controls:
-  - `SERVE_FRONTEND=false` (recommended for Python-only submission narrative)
-  - `FORMSPREE_ENDPOINT=https://formspree.io/f/YOUR_FORM_ID`
+---
 
-## 3) Run backend (Windows / PowerShell)
-From the repo root:
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 🔁 **Triple-AI Failover** | Groq (Primary) → Cerebras (Secondary) → Gemini (Fallback) |
+| ⚡ **Async Engine** | FastAPI + asyncio for fast, non-blocking responses |
+| 🔐 **Role-Based Access (RBAC)** | Visitor / Student / Staff permission tiers |
+| 🖥️ **Desktop UI** | CustomTkinter interface with AI-generated follow-up suggestions |
+| ☁️ **Real-time Database** | Supabase (PostgreSQL) for records, attendance & fees |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Language:** Python 3.10+
+- **Backend:** FastAPI, Uvicorn, Pydantic
+- **Database:** Supabase (PostgreSQL)
+- **AI Models:** LLaMA 3 (via Groq & Cerebras), Gemini
+- **Frontend:** CustomTkinter, Pillow
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r .\backend\requirements.txt
-uvicorn app.main:app --reload --app-dir .\backend
+git clone https://github.com/aditya3272-arya/GurukulTheSchool_BotBuilders.git
+cd GurukulTheSchool_BotBuilders
 ```
 
-## 4) Run desktop client (new terminal)
-From the repo root:
+### 2. Set Up the Environment
 
 ```bash
-.\.venv\Scripts\Activate.ps1
-pip install -r .\client\requirements.txt
+# Create and activate virtual environment
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root directory (use `.env.example` as a template):
+
+```env
+# ── App ────────────────────────────────────────
+APP_ENV=dev
+APP_BASE_URL=http://127.0.0.1:8000
+SESSION_SECRET=your_session_secret_here
+SESSION_MAX_AGE_SECONDS=86400
+
+# ── School ─────────────────────────────────────
+SCHOOL_ID=your-supabase-school-id
+SCHOOL_NAME=your_school_name
+
+# ── Supabase ───────────────────────────────────
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# ── AI Models ──────────────────────────────────
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL_INTENT=gemini-2.5-flash
+GEMINI_MODEL_ANSWER=gemini-2.5-flash
+
+GROQ_API_KEY=your_groq_api_key
+GROQ_MODEL_INTENT=llama-3.1-8b-instant
+GROQ_MODEL_ANSWER=llama-3.1-8b-instant
+
+CEREBRAS_API_KEY=your_cerebras_api_key
+CEREBRAS_MODEL_INTENT=llama3.1-8b
+CEREBRAS_MODEL_ANSWER=llama-3.3-70b
+
+# ── Forms ──────────────────────────────────────
+FORMSPREE_ENDPOINT=https://formspree.io/f/your_form_id
+FORMSPREE_QUERY_ENDPOINT=https://formspree.io/f/your_query_form_id
+```
+
+> ⚠️ Never commit real API keys. This file contains placeholders only.
+
+---
+
+## ▶️ Running the Application
+
+Cortexia has three components. Run each in a separate terminal:
+
+**Terminal 1 — Backend API**
+```bash
+cd backend
+uvicorn app.main:app --reload
+```
+
+**Terminal 2 — Client Interface**
+```bash
 python -m client.main
 ```
 
-## 5) Video demo flow
-1. Start backend.
-2. Start desktop client.
-3. Record: splash -> school resolve -> role login -> dashboard chat.
-4. Include one restricted query to show access denial behavior.
-5. (Optional) Temporarily break OpenAI to show **Gemini fallback**, or vice versa.
-6. Submit one feedback form from the in-app feedback modal.
+**Terminal 3 — Admin Panel**
+```bash
+python -m admin_panel.main
+```
 
-## 6) Competition packaging notes
-- Active submission path is Python-only (`backend/`, `client/`, `supabase/`).
-- `frontend/` can be kept for personal archive, but exclude it from competition zip if strict interpretation is required.
+---
+
+## 🔄 System Workflow
+
+```
+User Query
+    ↓
+Access Validation  (RBAC + Keyword Filtering)
+    ↓
+AI Processing      (Groq → Cerebras → Gemini failover)
+    ↓
+Database Fetch     (Supabase)
+    ↓
+Structured Response + AI-generated Follow-up Suggestions
+```
+
+---
+
+## 🛡️ Security
+
+- ✅ Pydantic-based input validation
+- 🔍 Keyword filtering for safe query handling
+- 🔐 Credential management via environment variables
+- 🧱 Role-based access enforcement across all endpoints
+
+---
+
+## 🎥 Demo
+
+Demo video and additional assets are available via the submission Drive link.
+
+---
+
+## 👥 Credits
+
+| Name | Role |
+|---|---|
+| **Aaniya Sharma** | UI/UX Design & Frontend Development |
+| **Aditya Arya** | Backend, AI Architecture, API Integration, Failover System |
+
+
+---
+
+> **Note:** Sensitive credentials are excluded for security. API keys can be provided upon request for evaluation purposes.
+
+---
+
+> *Cortexia is not just a chatbot — it's a scalable AI-powered helpdesk system demonstrating how intelligent automation can modernize school infrastructure.*
