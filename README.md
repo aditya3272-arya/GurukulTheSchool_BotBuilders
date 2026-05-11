@@ -141,12 +141,6 @@ Structured Response + AI-generated Follow-up Suggestions
 
 ---
 
-## 🎥 Demo
-
-Demo video and additional assets are available via the submission Drive link.
-
----
-
 ## 👥 Credits
 
 | Name | Role |
