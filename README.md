@@ -94,6 +94,24 @@ FORMSPREE_QUERY_ENDPOINT=https://formspree.io/f/your_query_form_id
 
 ---
 
+## 🗄️ Database Setup (Supabase)
+
+To get the backend fully functional, you need to set up your Supabase project using the provided SQL scripts:
+
+Create a New Project: Log in to your Supabase Dashboard and create a new project.
+
+Open SQL Editor: Navigate to the SQL Editor tab in the sidebar.
+
+Run Schema Script: * Open supabase/schema.sql from this repository.
+
+Copy the content, paste it into the Supabase SQL Editor, and click Run. This creates all necessary tables (users, attendance, queries, etc.).
+
+Run Seed Data (Optional): * Open supabase/seed.sql.
+
+Paste and run it in the SQL Editor to populate the database with initial test users and sample data
+
+---
+
 ## ▶️ Running the Application
 
 Cortexia has three components. Run each in a separate terminal:
